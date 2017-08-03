@@ -28,9 +28,7 @@ def main(test_photo, species, image_size, step, recombination):
     x_total, y_total = image.shape[1], image.shape[0]
     prediction_matrix = [[[] for k in range(x_total)] for l in range(y_total)]
     # cycle through photo
-    print y_total, x_total
     for i_index, i in enumerate(range(0, y_total-(image_size), step)):
-        print i_index
         for j_index, j in enumerate(range(0, x_total-(image_size), step)):
             #print np.expand_dims(np.array(image[i:i+image_size, j:j+image_size]), axis=0).shape
             #print j, j_index

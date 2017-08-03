@@ -1,10 +1,10 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 """
-Will update as I finalize
+Module Docstring
 """
 
-__author__ = "Rachel Marty"
+__author__ = "Your Name"
 __version__ = "0.1.0"
 __license__ = "UCSD"
 
@@ -12,8 +12,8 @@ import argparse
 
 
 def main(args):
-
-
+    """ Main entry point of the app """
+    print "hello world", args
 
 
 if __name__ == "__main__":
