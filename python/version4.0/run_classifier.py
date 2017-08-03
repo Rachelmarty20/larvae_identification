@@ -16,6 +16,8 @@ import PIL.Image as Image
 # classifier and image_size need to align
 
 # will this take a really, really long time?
+
+# only need to import classifier and photo (the rest can be deduced, no?)
 def main(test_photo, species, image_size, step, recombination):
 
     # Import classifier

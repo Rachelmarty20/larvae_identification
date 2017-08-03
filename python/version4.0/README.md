@@ -8,6 +8,7 @@
 3. run_classifier.binary.py
 4. assess_classifier.py
 
+Should I combine 3 and 4 into test_classifier.py?
 
 Version of tensor flow -
 Version of keras - 2.0.2 (must reinstall...)

@@ -17,8 +17,8 @@ import seaborn as sns
 # run_classifier parameters: test_photo_file, classifier_file, image_size, step, recombination
 def main(test_photo, species, image_size, step, recombination):
 
-    prediction_matrix = pickle.load(open("/cellar/users/ramarty/Data/ants/gold_standard/predictions/{0}/{1}.{2}.{3}.{4}.p".format(species, test_photo, image_size, step, recombination), "rb"))
-    gold_standard = mh.imread('/cellar/users/ramarty/Data/ants/gold_standard/photos/{0}.png'.format(test_photo))
+    prediction_matrix = np.array(pickle.load(open("/cellar/users/ramarty/Data/ants/version4.0/predictions/{0}/{1}.{2}.{3}.{4}.p".format(species, test_photo, image_size, step, recombination), "rb")))
+    gold_standard = mh.imread('/cellar/users/ramarty/Data/ants/photos/{0}.png'.format(test_photo))
 
     # make gold standard binary for comaprison
     gs_binary = np.arange(len(gold_standard)*len(gold_standard[0])).reshape(len(gold_standard), len(gold_standard[0]))
@@ -26,19 +26,32 @@ def main(test_photo, species, image_size, step, recombination):
         for col in range(len(gold_standard[0])):
             gs_binary[row][col] = f(gold_standard[row][col])
 
-    diff = gs_binary - prediction_matrix
-    total_dim = gs_binary.shape[0] * gs_binary.shape[1]
-    tpr = 1 - (diff[(diff > 0)].sum() / gs_binary.sum())
-    fpr = abs(diff[(diff < 0)].sum()) / (total_dim - gs_binary.sum()) # okay -- doesn't account for lightly colored
+    cutoff = 0.5
+    TP, FP, FN = 0, 0, 0
+    for i in range(image_size):
+        for j in range(image_size):
+            # val_predictions should == 1 for TP and FP
+            if (gs_binary[i][j] > cutoff) & (prediction_matrix[i][j] > cutoff):
+                TP += 1
+            elif (gs_binary[i][j] <= cutoff) & (prediction_matrix[i][j] > cutoff):
+                FP += 1
+            elif (gs_binary[i][j] > cutoff) & (prediction_matrix[i][j] <= cutoff):
+                FN += 1
 
-    print gs_binary.sum(), diff[(diff > 0)].sum()
-    print 'True Positive Rate:', tpr
-    print 'False Positive Rate:', fpr
+    #print 'True Positive Rate:', tpr
+    #print 'False Positive Rate:', fpr
 
     # Save results to a txt file
     with open("/cellar/users/ramarty/Data/ants/gold_standard/predictions/{0}/{1}.{2}.{3}.{4}.txt".format(species, test_photo, image_size, step, recombination), 'w') as outfile:
-        outfile.write('True Positive Rate: {0}\n'.format(tpr))
-        outfile.write('False Positive Rate: {0}\n'.format(fpr))
+        if (TP + FP > 0) & (TP + FN > 0):
+            precision = TP/float(TP+FP)
+            recall = TP/float(TP+FN)
+            outfile.write('Precision: {0}\n'.format(precision))
+            outfile.write('Recall: {0}\n'.format(recall))
+        else:
+            outfile.write('TP: {0}\n'.format(TP))
+            outfile.write('FP: {0}\n'.format(FP))
+            outfile.write('FN: {0}\n'.format(FN))
 
     # Save images to a file
     plt.figure(figsize=(6,8))
