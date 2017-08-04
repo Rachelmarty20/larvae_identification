@@ -45,22 +45,21 @@ def main(species, image_size):
                         else:
                             other += 1
                 if larvae > (image_size*image_size)/float(2):
-                    mh.imsave('/cellar/users/ramarty/Data/ants/gold_standard/training/{0}/size_{1}/larvae/{2}.pgm'.format(species, image_size, str(counter)),
+                    mh.imsave('/cellar/users/ramarty/Data/ants/version2.0/training/{0}/size_{1}/larvae/{2}.pgm'.format(species, image_size, str(counter)),
                           im_org[i:i+image_size, j:j+image_size])
                 elif pupae > (image_size*image_size)/float(2):
-                    mh.imsave('/cellar/users/ramarty/Data/ants/gold_standard/training/{0}/size_{1}/pupae/{2}.pgm'.format(species, image_size, str(counter)),
+                    mh.imsave('/cellar/users/ramarty/Data/ants/version2.0/training/{0}/size_{1}/pupae/{2}.pgm'.format(species, image_size, str(counter)),
                           im_org[i:i+image_size, j:j+image_size])
                 elif egg > (image_size*image_size)/float(2):
-                    mh.imsave('/cellar/users/ramarty/Data/ants/gold_standard/training/{0}/size_{1}/eggs/{2}.pgm'.format(species, image_size, (counter)),
+                    mh.imsave('/cellar/users/ramarty/Data/ants/version2.0/training/{0}/size_{1}/eggs/{2}.pgm'.format(species, image_size, (counter)),
                           im_org[i:i+image_size, j:j+image_size])
                 else:
                     if counter % 10 == 0:
-                        mh.imsave('/cellar/users/ramarty/Data/ants/gold_standard/training/{0}/size_{1}/other/{2}.pgm'.format(species, image_size, (counter)),
+                        mh.imsave('/cellar/users/ramarty/Data/ants/version2.0/training/{0}/size_{1}/other/{2}.pgm'.format(species, image_size, (counter)),
                               im_org[i:i+image_size, j:j+image_size])
                 counter += 1
                 if counter % 100 == 0:
                     print counter
-
 
 ###########################################  Main Method  #####################################
 
