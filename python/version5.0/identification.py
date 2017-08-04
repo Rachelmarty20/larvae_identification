@@ -29,7 +29,7 @@ class Identification(object):
         Trade in path for numpy matrix
         :return: None
         '''
-        self.image = np.expand_dims(Image.open(self.image_path), axis=2)
+        self.image = mh.imread(self.image_path)
 
 
     def get_label_matrix(self):
