@@ -47,7 +47,7 @@ class Identification(object):
 
     def get_predictions(self, out_path):
         prediction_matrix = pickle.load(open("{0}.p".format(out_path)))
-        self.all_predictions = prediction_matrix
+        self.prediction_matrix = prediction_matrix
 
     def predict(self, model):
         '''
@@ -91,7 +91,7 @@ class Identification(object):
         for i in range(self.image.shape[1]):
             for j in range(self.image.shape[0]):
                 real.append(self.labels[i][j])
-                predicted.append(self.all_predictions[i][j])
+                predicted.append(self.prediction_matrix[i][j])
         self.auc = sklearn.metrics.roc_auc_score(real, predicted)
         self.recall = sklearn.metrics.recall_score(real, predicted)
         self.precision = sklearn.metrics.precision_score(real, predicted)
