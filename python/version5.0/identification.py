@@ -81,10 +81,12 @@ class Identification(object):
         prediction_matrix_np = np.matrix(summary_matrix)
         self.prediction_matrix = np.nan_to_num(prediction_matrix_np)
 
+    # Can use this to create AUC, then can choose cutoff from AUC
     def assess(self, cutoff=0.5):
         TP, FP, FN = 0, 0, 0
         for i in range(self.image.shape[1]):
             for j in range(self.image.shape[0]):
+                print self.labels[i][j], self.prediction_matrix[i][j]
                 # val_predictions should == 1 for TP and FP
                 if (self.labels[i][j] > cutoff) & (self.prediction_matrix[i][j] > cutoff):
                     TP += 1
