@@ -17,7 +17,7 @@ class Identification(object):
     def __init__(self, image_path, square_size):
         self.image_path = image_path + '.pgm'
         self.label_path = image_path + '.png'
-        self.squar_size = square_size
+        self.square_size = square_size
         self.step = 20
         # Maybe some of the gets can be put in the initialization??
 
