@@ -12,14 +12,12 @@ class Identification(object):
         image: name of the image to be classified
         labels: the image with labels
         size: size of the image
-        species: species of the ants
     '''
 
-    def __init__(self, image_path, label_path, species, scan_size):
-        self.image_path = image_path
-        self.label_path = label_path
-        self.species = species
-        self.scan_size = scan_size
+    def __init__(self, image_path, square_size):
+        self.image_path = image_path + '.pgm'
+        self.label_path = image_path + '.png'
+        self.squar_size = square_size
         self.step = 20
         # Maybe some of the gets can be put in the initialization??
 
@@ -52,11 +50,11 @@ class Identification(object):
         '''
         x_total, y_total = self.image.shape[1], self.image.shape[0]
         prediction_matrix = [[[] for k in range(x_total)] for l in range(y_total)]
-        for i_index, i in enumerate(range(0, y_total-(self.scan_size), self.step)):
-            for j_index, j in enumerate(range(0, x_total-(self.scan_size), self.step)):
-                prediction = model.predict(np.expand_dims(np.array(self.image[i:i+self.scan_size, j:j+self.scan_size]), axis=0))
-                for i_single in range(i, i+self.scan_size):
-                    for j_single in range(j, j+self.scan_size):
+        for i_index, i in enumerate(range(0, y_total-(self.square_size), self.step)):
+            for j_index, j in enumerate(range(0, x_total-(self.square_size), self.step)):
+                prediction = model.predict(np.expand_dims(np.array(self.image[i:i+self.square_size, j:j+self.square_size]), axis=0))
+                for i_single in range(i, i+self.square_size):
+                    for j_single in range(j, j+self.square_size):
                         try:
                             prediction_matrix[i_single][j_single].append(prediction)
                         except:

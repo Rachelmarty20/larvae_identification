@@ -16,8 +16,7 @@ import cPickle as pickle
 
 def main(args):
 
-    id = identification.Identification(image_path=args.image_path, label_path=args.label_path,
-                                           species=args.species, scan_size=args.scan_size)
+    id = identification.Identification(image_path=args.image_path, square_size=args.square_size)
     id.get_image_matrix()
     print("Image loaded.")
 
@@ -28,26 +27,28 @@ def main(args):
     # Run classification
     id.predict(model)
     # maybe cycle through different recombinations?
-    recombination = 'median'
-    id.summarize_predictions(recombination)
-    pickle.dump(id.prediction_matrix, open("{0}.{1}.p".format(args.prediction_prefix, recombination), "wb"))
+    id.summarize_predictions(args.recombination)
+    pickle.dump(id.prediction_matrix, open("{0}.{1}.p".format(args.out_path, args.recombination), "wb"))
     print("Predictions made.")
 
     # Assess classification
     id.assess()
-    id.save_results(args.prediction_prefix, recombination)
+    id.save_results(args.out_path, args.recombination)
     print("Results saved.")
 
 if __name__ == "__main__":
 
     parser = argparse.ArgumentParser("This program is used to test the accuracy of a classifier on an image.")
 
-    parser.add_argument('-c', action="store", dest="classifier_path", help="Path to model to use")
-    parser.add_argument('-i', action="store", dest="image_path", help="Path to image to classify")
-    parser.add_argument('-l', action="store", dest="label_path", help="Path to labels of image")
-    parser.add_argument('-t', action="store", dest="species", help="Species of ant")
-    parser.add_argument('-s', action="store", dest="scan_size", help="Size of scanning boxes", default=50)
-    parser.add_argument('-o', action="store", dest="prediction_prefix", help="Location for output files")
+    # required arguements
+    parser.add_argument("classifier_path", help="Path to model to use")
+    parser.add_argument("image_path", help="Path to image to classify")
+    parser.add_argument("out_path", help="Location for output files")
+
+    # optional arguments
+    parser.add_argument('-s', action="store", dest="square_size", help="Size of scanning boxes", default=50)
+    parser.add_argument('-r', action="store", dest="recombination", help="Recombination for summary", default='median')
+
 
     # Optional verbosity counter (eg. -v, -vv, -vvv, etc.)
     parser.add_argument(
