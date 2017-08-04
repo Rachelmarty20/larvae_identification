@@ -113,7 +113,7 @@ class Identification(object):
                 outfile.write("{0}\n".format(i))
         # Save images to a file
         plt.figure(figsize=(6,8))
-        sns.heatmap(self.all_predictions)
+        sns.heatmap(self.prediction_matrix)
         plt.savefig("{0}.png".format(location))
 
 
