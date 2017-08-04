@@ -98,7 +98,7 @@ class Identification(object):
         #prediction_path = '/cellar/users/ramarty/Data/ants/version4.0/predictions/'
         classifier = classifier_path.split('/')[-1]
         species = classifier_path.split('/')[-2]
-        out_path = '{0}{1}/{2}.{3}.{4}.{5}'.format(prediction_path, species, classifier, self.image_name)
+        out_path = '{0}{1}/{2}.{3}'.format(prediction_path, species, classifier, self.image_name)
         return out_path
 
     def save_results(self, location):

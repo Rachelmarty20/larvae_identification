@@ -10,10 +10,8 @@ __license__ = "UCSD"
 
 import argparse
 import identification
-from keras.models import load_model
-import cPickle as pickle
 from sklearn.externals import joblib
-
+import cPickle as pickle
 
 def main(args):
 
