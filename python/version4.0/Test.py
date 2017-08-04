@@ -34,6 +34,7 @@ def main(args):
 
     # Assess classification
     if args.assess:
+        id.get_label_matrix()
         id.assess()
         id.save_results(out_path)
         print("Results saved.")
