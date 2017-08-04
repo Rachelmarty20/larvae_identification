@@ -18,3 +18,4 @@ for row in range(len(gold_standard)):
         gs_binary[row][col] = f(gold_standard[row][col])
 
 pickle.dump(gs_binary, open('{0}.p'.format(path.split('.')[0]), 'w'))
+

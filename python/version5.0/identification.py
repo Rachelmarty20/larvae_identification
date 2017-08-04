@@ -4,6 +4,7 @@ from matplotlib import pyplot as plt
 import PIL.Image as Image
 import seaborn as sns
 import sklearn
+import pickle
 
 import warnings
 warnings.filterwarnings('ignore')
@@ -20,7 +21,7 @@ class Identification(object):
 
     def __init__(self, image_path, square_size):
         self.image_path = image_path + '.pgm'
-        self.label_path = image_path + '.png'
+        self.label_path = image_path + '.p'
         self.image_name = image_path.split('/')[-1]
         self.square_size = square_size
         self.step = 20
@@ -40,12 +41,13 @@ class Identification(object):
         Trade in path for numpy matrix
         :return: numpy matrix
         '''
-        gold_standard = mh.imread(self.label_path)
-        gs_binary = np.arange(len(gold_standard)*len(gold_standard[0])).reshape(len(gold_standard), len(gold_standard[0]))
-        for row in range(len(gold_standard)):
-            for col in range(len(gold_standard[0])):
-                gs_binary[row][col] = f(gold_standard[row][col])
+        #gold_standard = mh.imread(self.label_path)
+        gs_binary = pickle.load(open(self.label_path))
         self.labels = gs_binary
+
+    def get_predictions(self, out_path):
+        prediction_matrix = pickle.load(open("{0}.p".format(out_path)))
+        self.all_predictions = prediction_matrix
 
     def predict(self, model):
         '''
