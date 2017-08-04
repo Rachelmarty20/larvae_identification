@@ -84,17 +84,13 @@ class Identification(object):
         prediction_matrix_np = np.matrix(summary_matrix)
         self.prediction_matrix = np.nan_to_num(prediction_matrix_np)
 
-    # Can use this to create AUC, then can choose cutoff from AUC
     def assess(self, cutoff=0.5):
-        #TP, FP, FN = 0, 0, 0
         real, predicted = [], []
         for i in range(self.image.shape[0]):
             for j in range(self.image.shape[1]):
                 real.append(self.labels[i][j])
                 predicted.append(self.prediction_matrix[i][j])
         self.auc = sklearn.metrics.roc_auc_score(real, predicted)
-        self.recall = sklearn.metrics.recall_score(real, predicted)
-        self.precision = sklearn.metrics.precision_score(real, predicted)
         self.fpr, self.tpr, self.thresholds = sklearn.metrics.roc_curve(real, predicted, pos_label=1)
 
     def create_out_path(self, prediction_path, classifier_path):
@@ -107,8 +103,6 @@ class Identification(object):
         # Save results to a text file
         with open("{0}.txt".format(location), 'w') as outfile:
             outfile.write('AUC: {0}\n'.format(self.auc))
-            outfile.write('Precision: {0}\n'.format(self.precision))
-            outfile.write('Recall: {0}\n'.format(self.recall))
         with open("{0}.fpr.txt".format(location), 'w') as outfile:
             for i in self.fpr:
                 outfile.write("{0}\n".format(i))
