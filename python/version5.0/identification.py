@@ -44,7 +44,7 @@ class Identification(object):
                 gs_binary[row][col] = f(gold_standard[row][col])
         self.labels = gs_binary
 
-    def predict(self, model, model_type):
+    def predict(self, model):
         '''
         Create predictions using model
         :param classifier: model
@@ -54,12 +54,8 @@ class Identification(object):
         prediction_matrix = [[[] for k in range(x_total)] for l in range(y_total)]
         for i_index, i in enumerate(range(0, y_total-(self.square_size), self.step)):
             for j_index, j in enumerate(range(0, x_total-(self.square_size), self.step)):
-                # different model types
-                if model_type == 'keras':
-                    prediction = model.predict(np.expand_dims(np.array(self.image[i:i+self.square_size, j:j+self.square_size]), axis=0))
-                else:
-                    test_features = mh.features.haralick(self.image[i:i+self.square_size, j:j+self.square_size], return_mean_ptp=True)
-                    prediction = model.predict_proba(test_features)[0][0]
+                test_features = mh.features.haralick(self.image[i:i+self.square_size, j:j+self.square_size], return_mean_ptp=True)
+                prediction = model.predict_proba(test_features)[0][0]
                 for i_single in range(i, i+self.square_size):
                     for j_single in range(j, j+self.square_size):
                         try:
@@ -83,7 +79,6 @@ class Identification(object):
         prediction_matrix_np = np.matrix(summary_matrix)
         self.prediction_matrix = np.nan_to_num(prediction_matrix_np)
 
-
     def assess(self, cutoff=0.5):
         TP, FP, FN = 0, 0, 0
         for i in range(self.image.shape[1]):
@@ -103,7 +98,7 @@ class Identification(object):
         #prediction_path = '/cellar/users/ramarty/Data/ants/version4.0/predictions/'
         classifier = classifier_path.split('/')[-1]
         species = classifier_path.split('/')[-2]
-        out_path = '{0}{1}/{2}.{3}.{4}.{5}'.format(prediction_path, species, classifier, self.image_name, self.square_size, self.step)
+        out_path = '{0}{1}/{2}.{3}.{4}.{5}'.format(prediction_path, species, classifier, self.image_name)
         return out_path
 
     def save_results(self, location):

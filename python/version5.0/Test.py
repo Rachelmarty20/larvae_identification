@@ -14,25 +14,24 @@ from keras.models import load_model
 import cPickle as pickle
 from sklearn.externals import joblib
 
+
 def main(args):
+
+    print(args.classify, args.assess)
 
     id = identification.Identification(image_path=args.image_path, square_size=args.square_size)
     id.get_image_matrix()
     print("Image loaded.")
 
     # Import classifier
-    if args.model_type == 'keras':
-        model = load_model(args.classifier_path)
-    else:
-        model = joblib.load(args.classifier_path)
+    model = joblib.load(args.classifier_path)
     out_path = id.create_out_path(args.output_path, args.classifier_path)
     print("Model loaded.")
 
     # Run classification
     if args.classify:
         print("About to predict.")
-        id.predict(model, args.model_type)
-        # maybe cycle through different recombinations?
+        id.predict(model)
         id.summarize_predictions(args.recombination)
         pickle.dump(id.prediction_matrix, open("{0}.p".format(out_path), "wb"))
         print("Predictions made.")
@@ -50,7 +49,7 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser("This program is used to test the accuracy of a classifier on an image.")
 
     # required arguements
-    parser.add_argument("classifier_path", help="Path to model to use")
+    parser.add_argument("classifier_path", help="Path to model")
     parser.add_argument("image_path", help="Path to image to classify")
     parser.add_argument("output_path", help="Path for results")
 
@@ -59,7 +58,6 @@ if __name__ == "__main__":
     parser.add_argument('-r', action="store", dest="recombination", help="Recombination for summary", default='median')
     parser.add_argument('-c', action="store_false", dest="classify", help="Classify the image")
     parser.add_argument('-a', action="store_false", dest="assess", help="Assess the image")
-    parser.add_argument('-m', action="store", dest="model_type", help="Model type", default='keras')
 
 
     # Optional verbosity counter (eg. -v, -vv, -vvv, etc.)
