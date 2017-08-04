@@ -51,7 +51,7 @@ def main(species, image_size, batch_size, learning_rate):
     sgd = SGD(lr=learning_rate, decay=1e-6, momentum=0.9, nesterov=True)
     model.compile(loss='categorical_crossentropy', metrics=[metrics.categorical_accuracy], optimizer=sgd)
 
-    history_callback = model.fit(X_train, y_train, batch_size=batch_size, epochs=10)
+    history_callback = model.fit(X_train, y_train, batch_size=batch_size, epochs=1000)
     score = model.evaluate(X_test, y_test, batch_size=32)
 
     with open('/cellar/users/ramarty/Data/ants/version4.0/classifiers/{0}/CV_accuracy.convnet.size_{1}.b{2}_lr{3}.txt'.format(species, image_size, batch_size, learning_rate) , 'w') as outfile:
