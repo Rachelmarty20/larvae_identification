@@ -47,7 +47,7 @@ class Identification(object):
 
     def get_predictions(self, out_path):
         prediction_matrix = pickle.load(open("{0}.p".format(out_path)))
-        self.prediction_matrix = prediction_matrix
+        self.prediction_matrix = np.array(prediction_matrix)
 
     def predict(self, model):
         '''
