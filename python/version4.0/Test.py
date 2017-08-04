@@ -21,6 +21,7 @@ def main(args):
 
     # Import classifier
     model = load_model(args.classifier_path)
+    out_path = id.create_out_path(args.classifier_path)
     print("Model loaded.")
 
     # Run classification
@@ -28,12 +29,11 @@ def main(args):
         id.predict(model)
         # maybe cycle through different recombinations?
         id.summarize_predictions(args.recombination)
-        pickle.dump(id.prediction_matrix, open("{0}.{1}.p".format(args.out_path, args.recombination), "wb"))
+        pickle.dump(id.prediction_matrix, open("{0}.p".format(out_path), "wb"))
         print("Predictions made.")
 
     # Assess classification
     if args.assess:
-        out_path = id.create_out_path(args.classifier_path)
         id.assess()
         id.save_results(out_path)
         print("Results saved.")
