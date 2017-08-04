@@ -12,6 +12,7 @@ import argparse
 import identification
 from keras.models import load_model
 import cPickle as pickle
+from sklearn.externals import joblib
 
 def main(args):
 
@@ -20,14 +21,17 @@ def main(args):
     print("Image loaded.")
 
     # Import classifier
-    model = load_model(args.classifier_path)
+    if args.model_type == 'keras':
+        model = load_model(args.classifier_path)
+    else:
+        model = joblib.load(args.classifier_path)
     out_path = id.create_out_path(args.output_path, args.classifier_path)
     print("Model loaded.")
 
     # Run classification
     if args.classify:
         print("About to predict.")
-        id.predict(model)
+        id.predict(model, args.model_type)
         # maybe cycle through different recombinations?
         id.summarize_predictions(args.recombination)
         pickle.dump(id.prediction_matrix, open("{0}.p".format(out_path), "wb"))
@@ -55,6 +59,7 @@ if __name__ == "__main__":
     parser.add_argument('-r', action="store", dest="recombination", help="Recombination for summary", default='median')
     parser.add_argument('-c', action="store_false", dest="classify", help="Classify the image")
     parser.add_argument('-a', action="store_false", dest="assess", help="Assess the image")
+    parser.add_argument('-m', action="store", dest="model_type", help="Model type", default='keras')
 
 
     # Optional verbosity counter (eg. -v, -vv, -vvv, etc.)

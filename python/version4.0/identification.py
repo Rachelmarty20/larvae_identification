@@ -3,6 +3,7 @@ import numpy as np
 from matplotlib import pyplot as plt
 import PIL.Image as Image
 import seaborn as sns
+import mahotas as mh
 
 class Identification(object):
     '''
@@ -43,7 +44,7 @@ class Identification(object):
                 gs_binary[row][col] = f(gold_standard[row][col])
         self.labels = gs_binary
 
-    def predict(self, model):
+    def predict(self, model, model_type):
         '''
         Create predictions using model
         :param classifier: model
@@ -53,7 +54,12 @@ class Identification(object):
         prediction_matrix = [[[] for k in range(x_total)] for l in range(y_total)]
         for i_index, i in enumerate(range(0, y_total-(self.square_size), self.step)):
             for j_index, j in enumerate(range(0, x_total-(self.square_size), self.step)):
-                prediction = model.predict(np.expand_dims(np.array(self.image[i:i+self.square_size, j:j+self.square_size]), axis=0))
+                # different model types
+                if model_type == 'keras':
+                    prediction = model.predict(np.expand_dims(np.array(self.image[i:i+self.square_size, j:j+self.square_size]), axis=0))
+                else:
+                    test_features = mh.features.haralick(self.image[i:i+self.square_size, j:j+self.square_size], return_mean_ptp=True)
+                    prediction = model.predict_proba(test_features)[0][0]
                 for i_single in range(i, i+self.square_size):
                     for j_single in range(j, j+self.square_size):
                         try:
