@@ -8,11 +8,11 @@ import mahotas as mh
 def main(species, image_size):
 
     if species == 'cfellah':
-        files = list(set([x.split('.')[0] for x in os.listdir('/cellar/users/ramarty/Data/ants/gold_standard/photos/') if ('2017' in x) or ('2016' in x)]))
+        files = list(set([x.split('.')[0] for x in os.listdir('/cellar/users/ramarty/Data/ants/photos/') if ('2017' in x) or ('2016' in x)]))
     else: # species == 'leptothorax':
-        files = list(set([x.split('.')[0] for x in os.listdir('/cellar/users/ramarty/Data/ants/gold_standard/photos/') if ('2014' in x) or ('box101' in x)]))
+        files = list(set([x.split('.')[0] for x in os.listdir('/cellar/users/ramarty/Data/ants/photos/') if ('2014' in x) or ('box101' in x)]))
 
-    directory = '/cellar/users/ramarty/Data/ants/gold_standard/photos/'
+    directory = '/cellar/users/ramarty/Data/ants/photos/'
 
     counter = 0
     # maybe a more sophisticated way of removing training
@@ -25,8 +25,8 @@ def main(species, image_size):
         else: # species == 'leptothorax':
             y_total, x_total = im_ann.shape[0], im_ann.shape[1]
 
-        for i in range(0, y_total-image_size, int(image_size/float(2))):
-            for j in range(0, x_total-image_size, int(image_size/float(2))):
+        for i in range(0, y_total-image_size, int(image_size/float(5))):
+            for j in range(0, x_total-image_size, int(image_size/float(5))):
                 # check colors from annotated - split for species
                 larvae, pupae, egg, other = 0, 0, 0, 0
                 for m in range(image_size):

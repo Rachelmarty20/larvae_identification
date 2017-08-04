@@ -24,7 +24,7 @@ def main(species, image_size, batch_size, learning_rate):
     pupae_files = os.listdir('/cellar/users/ramarty/Data/ants/version2.0/training/{0}/size_{1}/pupae'.format(species, image_size))[:5000]
     other_files = os.listdir('/cellar/users/ramarty/Data/ants/version2.0/training/{0}/size_{1}/other'.format(species, image_size))[:5000]
 
-    larvae_images = [np.expand_dims(Image.open('/cellar/users/ramarty/Data/ants/version2.0/training/{0}/size_{1}/larvae/{2}'.format(species, image_size, x)), axis=2) for x in pupae_files] #+ [np.expand_dims(Image.open('/cellar/users/ramarty/Data/ants/version2.0/training/{0}/size_{1}/pupae/{2}'.format(species, image_size, x)), axis=2) for x in pupae_files]
+    larvae_images = [np.expand_dims(Image.open('/cellar/users/ramarty/Data/ants/version2.0/training/{0}/size_{1}/pupae/{2}'.format(species, image_size, x)), axis=2) for x in pupae_files] #+ [np.expand_dims(Image.open('/cellar/users/ramarty/Data/ants/version2.0/training/{0}/size_{1}/pupae/{2}'.format(species, image_size, x)), axis=2) for x in pupae_files]
     other_images = [np.expand_dims(Image.open('/cellar/users/ramarty/Data/ants/version2.0/training/{0}/size_{1}/other/{2}'.format(species, image_size, x)), axis=2) for x in other_files]
 
     images = np.array(larvae_images + other_images)
