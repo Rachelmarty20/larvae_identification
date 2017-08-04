@@ -17,6 +17,7 @@ class Identification(object):
     def __init__(self, image_path, square_size):
         self.image_path = image_path + '.pgm'
         self.label_path = image_path + '.png'
+        self.image_name = image_path.split('/')[-1]
         self.square_size = square_size
         self.step = 20
         # Maybe some of the gets can be put in the initialization??
@@ -92,9 +93,15 @@ class Identification(object):
         self.FP = FP
         self.FN = FN
 
-    def save_results(self, location, recombination):
+    def create_out_path(self, classifier_path):
+        prediction_path = '/cellar/users/ramarty/Data/ants/version4.0/predictions/'
+        classifier = classifier_path.split('/')[-1]
+        out_path = '{0}{1}.{2}.{3}.{4}.{5}'.format(prediction_path, classifier, self.image_name, self.square_size, self.step)
+        return out_path
+
+    def save_results(self, location):
         # Save results to a text file
-        with open("{0}.{1}.txt".format(location, recombination), 'w') as outfile:
+        with open("{0}.txt".format(location), 'w') as outfile:
             if (self.TP + self.FP > 0) & (self.TP + self.FN > 0):
                 precision = self.TP/float(self.TP+self.FP)
                 recall = self.TP/float(self.TP+self.FN)
@@ -108,7 +115,7 @@ class Identification(object):
         # Save images to a file
         plt.figure(figsize=(6,8))
         sns.heatmap(self.prediction_matrix)
-        plt.savefig("{0}.{1}.png".format(location, recombination))
+        plt.savefig("{0}.png".format(location))
 
 
 def f(x):

@@ -13,7 +13,6 @@ import identification
 from keras.models import load_model
 import cPickle as pickle
 
-
 def main(args):
 
     id = identification.Identification(image_path=args.image_path, square_size=args.square_size)
@@ -32,8 +31,9 @@ def main(args):
     print("Predictions made.")
 
     # Assess classification
+    out_path = id.create_out_path(args.classifier_path)
     id.assess()
-    id.save_results(args.out_path, args.recombination)
+    id.save_results(out_path)
     print("Results saved.")
 
 if __name__ == "__main__":
@@ -43,7 +43,6 @@ if __name__ == "__main__":
     # required arguements
     parser.add_argument("classifier_path", help="Path to model to use")
     parser.add_argument("image_path", help="Path to image to classify")
-    parser.add_argument("out_path", help="Location for output files")
 
     # optional arguments
     parser.add_argument('-s', action="store", dest="square_size", help="Size of scanning boxes", default=50)
