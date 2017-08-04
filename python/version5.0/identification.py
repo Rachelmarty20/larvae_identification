@@ -3,7 +3,6 @@ import numpy as np
 from matplotlib import pyplot as plt
 import PIL.Image as Image
 import seaborn as sns
-import mahotas as mh
 import sklearn
 
 import warnings
@@ -89,7 +88,6 @@ class Identification(object):
         real, predicted = [], []
         for i in range(self.image.shape[1]):
             for j in range(self.image.shape[0]):
-                #print self.labels[i][j], self.prediction_matrix[i][j]
                 real.append(self.labels[i][j])
                 predicted.append(self.all_predictions[i][j])
         self.auc = sklearn.metrics.roc_auc_score(real, predicted)
