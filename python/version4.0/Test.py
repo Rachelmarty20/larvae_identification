@@ -19,33 +19,35 @@ def main(args):
     id = identification.Identification(image_path=args.image_path, label_path=args.label_path,
                                            species=args.species, scan_size=args.scan_size)
     id.get_image_matrix()
+    print("Image loaded.")
 
     # Import classifier
     model = load_model(args.classifier_path)
+    print("Model loaded.")
 
     # Run classification
     id.predict(model)
-
+    # maybe cycle through different recombinations?
     recombination = 'median'
     id.summarize_predictions(recombination)
     pickle.dump(id.prediction_matrix, open("{0}.{1}.p".format(args.prediction_prefix, recombination), "wb"))
+    print("Predictions made.")
 
     # Assess classification
     id.assess()
     id.save_results(args.prediction_prefix, recombination)
-
-
+    print("Results saved.")
 
 if __name__ == "__main__":
-    """ This is executed when run from the command line """
-    parser = argparse.ArgumentParser()
 
-    parser.add_argument("classifier_path", help="Path to model to use")
-    parser.add_argument("image_path", help="Path to image to classify")
-    parser.add_argument("label_path", help="Path to labels of image")
-    parser.add_argument("species", help="Species of ant")
-    parser.add_argument("scan_size", help="Size of scanning boxes")
-    parser.add_argument("prediction_prefix", help="Location for output files")
+    parser = argparse.ArgumentParser("This program is used to test the accuracy of a classifier on an image.")
+
+    parser.add_argument('-c', action="store", dest="classifier_path", help="Path to model to use")
+    parser.add_argument('-i', action="store", dest="image_path", help="Path to image to classify")
+    parser.add_argument('-l', action="store", dest="label_path", help="Path to labels of image")
+    parser.add_argument('-t', action="store", dest="species", help="Species of ant")
+    parser.add_argument('-s', action="store", dest="scan_size", help="Size of scanning boxes", default=50)
+    parser.add_argument('-o', action="store", dest="prediction_prefix", help="Location for output files")
 
     # Optional verbosity counter (eg. -v, -vv, -vvv, etc.)
     parser.add_argument(
