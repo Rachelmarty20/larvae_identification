@@ -24,17 +24,19 @@ def main(args):
     print("Model loaded.")
 
     # Run classification
-    id.predict(model)
-    # maybe cycle through different recombinations?
-    id.summarize_predictions(args.recombination)
-    pickle.dump(id.prediction_matrix, open("{0}.{1}.p".format(args.out_path, args.recombination), "wb"))
-    print("Predictions made.")
+    if args.classify:
+        id.predict(model)
+        # maybe cycle through different recombinations?
+        id.summarize_predictions(args.recombination)
+        pickle.dump(id.prediction_matrix, open("{0}.{1}.p".format(args.out_path, args.recombination), "wb"))
+        print("Predictions made.")
 
     # Assess classification
-    out_path = id.create_out_path(args.classifier_path)
-    id.assess()
-    id.save_results(out_path)
-    print("Results saved.")
+    if args.assess:
+        out_path = id.create_out_path(args.classifier_path)
+        id.assess()
+        id.save_results(out_path)
+        print("Results saved.")
 
 if __name__ == "__main__":
 
@@ -47,6 +49,8 @@ if __name__ == "__main__":
     # optional arguments
     parser.add_argument('-s', action="store", dest="square_size", help="Size of scanning boxes", default=50)
     parser.add_argument('-r', action="store", dest="recombination", help="Recombination for summary", default='median')
+    parser.add_argument('-c', action="store_true", dest="classify", help="Classify the image", default=True)
+    parser.add_argument('-a', action="store_true", dest="assess", help="Assess the image", default=True)
 
 
     # Optional verbosity counter (eg. -v, -vv, -vvv, etc.)

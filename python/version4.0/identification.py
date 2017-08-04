@@ -80,8 +80,8 @@ class Identification(object):
 
     def assess(self, cutoff=0.5):
         TP, FP, FN = 0, 0, 0
-        for i in range(self.image.size[1]):
-            for j in range(self.image.size[0]):
+        for i in range(self.image.shape[1]):
+            for j in range(self.image.shape[0]):
                 # val_predictions should == 1 for TP and FP
                 if (self.labels[i][j] > cutoff) & (self.prediction_matrix[i][j] > cutoff):
                     TP += 1
