@@ -1,7 +1,8 @@
 import mahotas as mh
 import numpy as np
-from matplotlib import pyplot as plt
+import matplotlib
 matplotlib.use('Agg')
+from matplotlib import pyplot as plt
 import PIL.Image as Image
 import seaborn as sns
 import sklearn
