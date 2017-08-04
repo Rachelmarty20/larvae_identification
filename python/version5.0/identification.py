@@ -88,8 +88,8 @@ class Identification(object):
     def assess(self, cutoff=0.5):
         #TP, FP, FN = 0, 0, 0
         real, predicted = [], []
-        for i in range(self.image.shape[1]):
-            for j in range(self.image.shape[0]):
+        for i in range(self.image.shape[1]-1):
+            for j in range(self.image.shape[0]-1):
                 real.append(self.labels[i][j])
                 predicted.append(self.prediction_matrix[i][j])
         self.auc = sklearn.metrics.roc_auc_score(real, predicted)
