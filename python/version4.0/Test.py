@@ -21,7 +21,7 @@ def main(args):
 
     # Import classifier
     model = load_model(args.classifier_path)
-    out_path = id.create_out_path(args.classifier_path)
+    out_path = id.create_out_path(args.output_path, args.classifier_path)
     print("Model loaded.")
 
     # Run classification
@@ -45,6 +45,7 @@ if __name__ == "__main__":
     # required arguements
     parser.add_argument("classifier_path", help="Path to model to use")
     parser.add_argument("image_path", help="Path to image to classify")
+    parser.add_argument("output_path", help="Path for results")
 
     # optional arguments
     parser.add_argument('-s', action="store", dest="square_size", help="Size of scanning boxes", default=50)

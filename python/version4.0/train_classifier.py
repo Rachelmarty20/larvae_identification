@@ -20,11 +20,11 @@ from keras import metrics
 
 def main(species, image_size, batch_size, learning_rate):
 
-    larvae_files = os.listdir('/cellar/users/ramarty/Data/ants/version2.0/training/{0}/size_{1}/larvae'.format(species, image_size))[:1000]
-    pupae_files = os.listdir('/cellar/users/ramarty/Data/ants/version2.0/training/{0}/size_{1}/pupae'.format(species, image_size))[:1000]
-    other_files = os.listdir('/cellar/users/ramarty/Data/ants/version2.0//training/{0}/size_{1}/other'.format(species, image_size))[:200]
+    #larvae_files = os.listdir('/cellar/users/ramarty/Data/ants/version2.0/training/{0}/size_{1}/larvae'.format(species, image_size))[:1000]
+    pupae_files = os.listdir('/cellar/users/ramarty/Data/ants/version2.0/training/{0}/size_{1}/pupae'.format(species, image_size))[:5000]
+    other_files = os.listdir('/cellar/users/ramarty/Data/ants/version2.0/training/{0}/size_{1}/other'.format(species, image_size))[:5000]
 
-    larvae_images = [np.expand_dims(Image.open('/cellar/users/ramarty/Data/ants/version2.0/training/{0}/size_{1}/larvae/{2}'.format(species, image_size, x)), axis=2) for x in larvae_files] + [np.expand_dims(Image.open('/cellar/users/ramarty/Data/ants/version2.0/training/{0}/size_{1}/pupae/{2}'.format(species, image_size, x)), axis=2) for x in pupae_files]
+    larvae_images = [np.expand_dims(Image.open('/cellar/users/ramarty/Data/ants/version2.0/training/{0}/size_{1}/larvae/{2}'.format(species, image_size, x)), axis=2) for x in pupae_files] #+ [np.expand_dims(Image.open('/cellar/users/ramarty/Data/ants/version2.0/training/{0}/size_{1}/pupae/{2}'.format(species, image_size, x)), axis=2) for x in pupae_files]
     other_images = [np.expand_dims(Image.open('/cellar/users/ramarty/Data/ants/version2.0/training/{0}/size_{1}/other/{2}'.format(species, image_size, x)), axis=2) for x in other_files]
 
     images = np.array(larvae_images + other_images)
@@ -51,7 +51,7 @@ def main(species, image_size, batch_size, learning_rate):
     sgd = SGD(lr=learning_rate, decay=1e-6, momentum=0.9, nesterov=True)
     model.compile(loss='categorical_crossentropy', metrics=[metrics.categorical_accuracy], optimizer=sgd)
 
-    history_callback = model.fit(X_train, y_train, batch_size=batch_size, epochs=1000)
+    history_callback = model.fit(X_train, y_train, batch_size=batch_size, epochs=500)
     score = model.evaluate(X_test, y_test, batch_size=32)
 
     with open('/cellar/users/ramarty/Data/ants/version4.0/classifiers/{0}/CV_accuracy.convnet.size_{1}.b{2}_lr{3}.txt'.format(species, image_size, batch_size, learning_rate) , 'w') as outfile:
