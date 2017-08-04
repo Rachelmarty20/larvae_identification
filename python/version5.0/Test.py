@@ -39,6 +39,8 @@ def main(args):
     # Assess classification
     if args.assess:
         print("Assessing...")
+        # get predictions
+
         # TODO: update this so we don't have to do it over and over again
         id.get_label_matrix()
         id.assess()

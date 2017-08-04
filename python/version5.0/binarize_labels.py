@@ -1,10 +1,7 @@
 import mahotas as mh
 import numpy as np
-from matplotlib import pyplot as plt
-import PIL.Image as Image
-import seaborn as sns
-import sklearn
 import sys
+import pickle
 
 path = sys.argv[1]
 
@@ -19,3 +16,5 @@ gs_binary = np.arange(len(gold_standard)*len(gold_standard[0])).reshape(len(gold
 for row in range(len(gold_standard)):
     for col in range(len(gold_standard[0])):
         gs_binary[row][col] = f(gold_standard[row][col])
+
+pickle.dump(gs_binary, open('{0}.p'.format(path.split('.')[0]), 'w'))
