@@ -4,6 +4,8 @@ from matplotlib import pyplot as plt
 import PIL.Image as Image
 import seaborn as sns
 import mahotas as mh
+import warnings
+warnings.filterwarnings('ignore')
 
 class Identification(object):
     '''

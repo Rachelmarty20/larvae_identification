@@ -12,6 +12,8 @@ import argparse
 import identification
 from sklearn.externals import joblib
 import cPickle as pickle
+import warnings
+warnings.filterwarnings('ignore')
 
 def main(args):
 
