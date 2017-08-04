@@ -4,6 +4,8 @@ from matplotlib import pyplot as plt
 import PIL.Image as Image
 import seaborn as sns
 import mahotas as mh
+import sklearn
+
 import warnings
 warnings.filterwarnings('ignore')
 
@@ -83,20 +85,17 @@ class Identification(object):
 
     # Can use this to create AUC, then can choose cutoff from AUC
     def assess(self, cutoff=0.5):
-        TP, FP, FN = 0, 0, 0
+        #TP, FP, FN = 0, 0, 0
+        real, predicted = [], []
         for i in range(self.image.shape[1]):
             for j in range(self.image.shape[0]):
-                print self.labels[i][j], self.prediction_matrix[i][j]
-                # val_predictions should == 1 for TP and FP
-                if (self.labels[i][j] > cutoff) & (self.prediction_matrix[i][j] > cutoff):
-                    TP += 1
-                elif (self.labels[i][j] <= cutoff) & (self.prediction_matrix[i][j] > cutoff):
-                    FP += 1
-                elif (self.labels[i][j] > cutoff) & (self.prediction_matrix[i][j] <= cutoff):
-                    FN += 1
-        self.TP = TP
-        self.FP = FP
-        self.FN = FN
+                #print self.labels[i][j], self.prediction_matrix[i][j]
+                real.append(self.labels[i][j])
+                predicted.append(self.all_predictions[i][j])
+        self.auc = sklearn.metrics.roc_auc_score(real, predicted)
+        self.recall = sklearn.metrics.recall_score(real, predicted)
+        self.precision = sklearn.metrics.precision_score(real, predicted)
+        self.fpr, self.tpr, self.thresholds = sklearn.metrics.roc_curve(real, predicted, pos_label=1)
 
     def create_out_path(self, prediction_path, classifier_path):
         #prediction_path = '/cellar/users/ramarty/Data/ants/version4.0/predictions/'
@@ -107,19 +106,18 @@ class Identification(object):
     def save_results(self, location):
         # Save results to a text file
         with open("{0}.txt".format(location), 'w') as outfile:
-            if (self.TP + self.FP > 0) & (self.TP + self.FN > 0):
-                precision = self.TP/float(self.TP+self.FP)
-                recall = self.TP/float(self.TP+self.FN)
-                outfile.write('Precision: {0}\n'.format(precision))
-                outfile.write('Recall: {0}\n'.format(recall))
-            else:
-                outfile.write('TP: {0}\n'.format(self.TP))
-                outfile.write('FP: {0}\n'.format(self.FP))
-                outfile.write('FN: {0}\n'.format(self.FN))
-
+            outfile.write('AUC: {0}\n'.format(self.auc))
+            outfile.write('Precision: {0}\n'.format(self.precision))
+            outfile.write('Recall: {0}\n'.format(self.recall))
+        with open("{0}.fpr.txt".format(location), 'w') as outfile:
+            for i in self.fpr:
+                outfile.write("{0}\n".format(i))
+        with open("{0}.tpr.txt".format(location), 'w') as outfile:
+            for i in self.tpr:
+                outfile.write("{0}\n".format(i))
         # Save images to a file
         plt.figure(figsize=(6,8))
-        sns.heatmap(self.prediction_matrix)
+        sns.heatmap(self.all_predictions)
         plt.savefig("{0}.png".format(location))
 
 
