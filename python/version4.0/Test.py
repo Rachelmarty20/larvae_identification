@@ -51,8 +51,8 @@ if __name__ == "__main__":
     # optional arguments
     parser.add_argument('-s', action="store", dest="square_size", help="Size of scanning boxes", default=50)
     parser.add_argument('-r', action="store", dest="recombination", help="Recombination for summary", default='median')
-    parser.add_argument('-c', action="store_true", dest="classify", help="Classify the image", default=True)
-    parser.add_argument('-a', action="store_true", dest="assess", help="Assess the image", default=True)
+    parser.add_argument('-c', action="store_false", dest="classify", help="Classify the image", default=True)
+    parser.add_argument('-a', action="store_false", dest="assess", help="Assess the image", default=True)
 
 
     # Optional verbosity counter (eg. -v, -vv, -vvv, etc.)
