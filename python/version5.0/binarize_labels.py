@@ -1,7 +1,7 @@
 import mahotas as mh
 import numpy as np
 import sys
-import pickle
+import cPickle as pickle
 
 path = sys.argv[1]
 
