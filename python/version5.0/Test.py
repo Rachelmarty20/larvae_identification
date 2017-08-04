@@ -30,7 +30,7 @@ def main(args):
 
     # Run classification
     if args.classify:
-        print("About to predict.")
+        print("Predicting...")
         id.predict(model)
         id.summarize_predictions(args.recombination)
         pickle.dump(id.prediction_matrix, open("{0}.p".format(out_path), "wb"))
@@ -38,11 +38,14 @@ def main(args):
 
     # Assess classification
     if args.assess:
-        print("About to assess.")
+        print("Assessing...")
         id.get_label_matrix()
         id.assess()
         id.save_results(out_path)
         print("Results saved.")
+
+    if args.filter:
+        None
 
 if __name__ == "__main__":
 
@@ -54,10 +57,11 @@ if __name__ == "__main__":
     parser.add_argument("output_path", help="Path for results")
 
     # optional arguments
-    parser.add_argument('-s', action="store", dest="square_size", help="Size of scanning boxes", default=50)
+    parser.add_argument('-s', action="store", type=int, dest="square_size", help="Size of scanning boxes", default=50)
     parser.add_argument('-r', action="store", dest="recombination", help="Recombination for summary", default='median')
     parser.add_argument('-c', action="store_false", dest="classify", help="Classify the image")
     parser.add_argument('-a', action="store_false", dest="assess", help="Assess the image")
+    parser.add_argument('-f', action="store_true", dest="filter", help="Filter the image")
 
 
     # Optional verbosity counter (eg. -v, -vv, -vvv, etc.)
