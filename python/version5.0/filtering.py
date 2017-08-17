@@ -30,34 +30,34 @@ def main(test_photo, species, image_size):
 
     ######## Filters ########
 
-    kernel_sizes = [10, 50, 100]
-    filter_thresholds = [0.4, 0.6, 0.8]
+    if species == 'cfellah':
+        kernel_sizes = [50, 75, 100]
+        filter_thresholds1 = [0.3, 0.4, 0.5]
+        filter_thresholds2 = [0.3, 0.4, 0.5]
+    else: #leptothorax
+        kernel_sizes = [25, 50, 75]
+        filter_thresholds1 = [0.3, 0.4, 0.5]
+        filter_thresholds2 = [0.3, 0.4, 0.5]
 
-    '''
     # Filter then threshold
     for kernel_size in kernel_sizes:
-        for filter_threshold in filter_thresholds:
-            prediction_matrix = prediction_matrix_original.copy()
-            prediction_matrix[prediction_matrix < filter_threshold] = 0
-            kernel = np.array([[1 for x in range(kernel_size)] for y in range(kernel_size)])
-            prediction_matrix = signal.convolve2d(prediction_matrix, kernel, boundary='wrap', mode='same')/kernel.sum()
-            auc, fpr, tpr = assess(gs, prediction_matrix)
-            output_base = '/cellar/users/ramarty/Data/ants/version5.0/predictions/{0}/random_forest.{1}.pkl.{2}.filter_{3}.kernel_{4}'.format(species, image_size, test_photo, filter_threshold, kernel_size)
-            save_result(output_base, prediction_matrix, auc, fpr, tpr)
-            print('Filter: {0}, Kernel: {1}'.format(filter_threshold, kernel_size))
-    '''
+        for filter_threshold1 in filter_thresholds1:
+            for filter_threshold2 in filter_thresholds2:
+                prediction_matrix = prediction_matrix_original.copy()
 
-    # Threshold then filter
-    for kernel_size in kernel_sizes:
-        for filter_threshold in filter_thresholds:
-            prediction_matrix = prediction_matrix_original.copy()
-            kernel = np.array([[1 for x in range(kernel_size)] for y in range(kernel_size)])
-            prediction_matrix = signal.convolve2d(prediction_matrix, kernel, boundary='wrap', mode='same')/kernel.sum()
-            prediction_matrix[prediction_matrix < filter_threshold] = 0
-            auc, fpr, tpr = assess(gs, prediction_matrix)
-            output_base = '/cellar/users/ramarty/Data/ants/version5.0/predictions/{0}/random_forest.{1}.pkl.{2}.kernel_{3}.filter_{4}'.format(species, image_size, test_photo, kernel_size, filter_threshold)
-            save_result(output_base, prediction_matrix, auc, fpr, tpr)
-            print('Kernel: {0}, Filter: {1}'.format(kernel_size, filter_threshold))
+                prediction_matrix[prediction_matrix < filter_threshold1] = 0
+                kernel = np.array([[1 for x in range(kernel_size)] for y in range(kernel_size)])
+                prediction_matrix = signal.convolve2d(prediction_matrix, kernel, boundary='wrap', mode='same')/kernel.sum()
+                auc, fpr, tpr = assess(gs, prediction_matrix)
+                output_base = '/cellar/users/ramarty/Data/ants/version5.0/predictions/{0}/random_forest.{1}.pkl.{2}.filter_{3}.kernel_{4}'.format(species, image_size, test_photo, filter_threshold1, kernel_size)
+                save_result(output_base, prediction_matrix, auc, fpr, tpr)
+
+                prediction_matrix[prediction_matrix < filter_threshold2] = 0
+                auc, fpr, tpr = assess(gs, prediction_matrix)
+                output_base = '/cellar/users/ramarty/Data/ants/version5.0/predictions/{0}/random_forest.{1}.pkl.{2}.filter_{3}.kernel_{4}.filter_{5}'.format(species, image_size, test_photo, filter_threshold1, kernel_size, filter_threshold2)
+                save_result(output_base, prediction_matrix, auc, fpr, tpr)
+            print('Filter: {0}, Kernel: {1}'.format(filter_threshold1, kernel_size))
+
 
 
 def assess(gs, prediction_matrix):
