@@ -8,7 +8,7 @@ matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 import seaborn as sns
 from scipy import ndimage
-import sklearn
+from sklearn import metrics
 from scipy import signal
 
 # Goal: compare predictions to actual gold standard to assess the classifier for a particular photo
