@@ -8,6 +8,7 @@ matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 import seaborn as sns
 from scipy import ndimage
+import sklearn
 from sklearn import metrics
 from scipy import signal
 
