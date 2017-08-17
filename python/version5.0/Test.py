@@ -46,6 +46,13 @@ def main(args):
         print("Results saved.")
 
     if args.filter:
+        print("Filtering...")
+
+        #id.save_results(out_path+'.threshold')
+        print("Results filtered.")
+
+
+    if args.filter:
         None
 
 if __name__ == "__main__":
