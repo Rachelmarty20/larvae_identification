@@ -25,6 +25,8 @@ def main(test_photo, species, image_size):
     # Import binarized result
     gs = pickle.load(open('/cellar/users/ramarty/Data/ants/photos/{0}.p'.format(test_photo)))
 
+    print('Files imported.')
+
     ######## Filters ########
 
     kernel_sizes = [10, 50, 100]
@@ -40,6 +42,7 @@ def main(test_photo, species, image_size):
             auc, fpr, tpr = assess(gs, prediction_matrix)
             output_base = '/cellar/users/ramarty/Data/ants/version5.0/predictions/{0}/random_forest.{1}.pkl.{2}.filter_{3}.kernel_{4}'.format(species, image_size, test_photo, filter_threshold, kernel_size)
             save_result(output_base, prediction_matrix, auc, fpr, tpr)
+            print('Filter: {0}, Kernel: {1}'.format(filter_threshold, kernel_size))
 
     # Threshold then filter
     for kernel_size in kernel_sizes:
@@ -51,6 +54,7 @@ def main(test_photo, species, image_size):
             auc, fpr, tpr = assess(gs, prediction_matrix)
             output_base = '/cellar/users/ramarty/Data/ants/version5.0/predictions/{0}/random_forest.{1}.pkl.{2}.kernel_{3}.filter_{4}'.format(species, image_size, test_photo, kernel_size, filter_threshold)
             save_result(output_base, prediction_matrix, auc, fpr, tpr)
+            print('Kernel: {0}, Filter: {1}'.format(kernel_size, filter_threshold))
 
 
 def assess(gs, prediction_matrix):
