@@ -33,6 +33,7 @@ def main(test_photo, species, image_size):
     kernel_sizes = [10, 50, 100]
     filter_thresholds = [0.4, 0.6, 0.8]
 
+    '''
     # Filter then threshold
     for kernel_size in kernel_sizes:
         for filter_threshold in filter_thresholds:
@@ -44,6 +45,7 @@ def main(test_photo, species, image_size):
             output_base = '/cellar/users/ramarty/Data/ants/version5.0/predictions/{0}/random_forest.{1}.pkl.{2}.filter_{3}.kernel_{4}'.format(species, image_size, test_photo, filter_threshold, kernel_size)
             save_result(output_base, prediction_matrix, auc, fpr, tpr)
             print('Filter: {0}, Kernel: {1}'.format(filter_threshold, kernel_size))
+    '''
 
     # Threshold then filter
     for kernel_size in kernel_sizes:
