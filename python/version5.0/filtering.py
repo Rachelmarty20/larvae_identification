@@ -57,7 +57,9 @@ def main(test_photo, species, image_size):
                 output_base = '/cellar/users/ramarty/Data/ants/version5.0/predictions/{0}/random_forest.{1}.pkl.{2}.filter_{3}.kernel_{4}.filter_{5}'.format(species, image_size, test_photo, filter_threshold1, kernel_size, filter_threshold2)
                 save_result(output_base, prediction_matrix, auc, fpr, tpr)
 
-                gc.collect()
+                del prediction_matrix
+                del prediction_matrix_copy
+                del fpr, tpr
 
             print('Filter: {0}, Kernel: {1}'.format(filter_threshold1, kernel_size))
 
