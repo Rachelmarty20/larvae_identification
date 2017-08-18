@@ -32,12 +32,12 @@ def main(test_photo, species, image_size):
 
     if species == 'cfellah':
         kernel_sizes = [50, 75, 100]
-        filter_thresholds1 = [0.3, 0.4, 0.5]
-        filter_thresholds2 = [0.05, 0.15, 0.25]
+        filter_thresholds1 = [0.5, 0.6, 0.7]
+        filter_thresholds2 = [0.3, 0.4, 0.5]
     else: #leptothorax
         kernel_sizes = [25, 50, 75]
-        filter_thresholds1 = [0.3, 0.4, 0.5]
-        filter_thresholds2 = [0.05, 0.15, 0.25]
+        filter_thresholds1 = [0.5, 0.6, 0.7]
+        filter_thresholds2 = [0.3, 0.4, 0.5]
 
     # Filter then threshold
     for kernel_size in kernel_sizes:
