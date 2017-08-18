@@ -95,7 +95,8 @@ def save_result(output_base, prediction_matrix, auc, fpr, tpr):
 
 if __name__ == "__main__":
     start_time = time.time()
-    if len(sys.argv) != 4:
+    if len(sys.argv) != 5:
+        print "Wrong number of arguments."
         sys.exit()
     main(sys.argv[1], sys.argv[2], int(sys.argv[3]), int(sys.argv[4]))
     print time.time() - start_time
