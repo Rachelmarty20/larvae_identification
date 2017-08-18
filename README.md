@@ -18,6 +18,18 @@ All of the code is written in python and runs on the following packages:
 
 ## Running the classification
 
+The following will have to be run from the commandline to produce results:
+
+```
+python RunClassification.py
+```
+
+For help choosing options, run:
+
+```
+python RunClassification.py --help
+```
+
 ## Acknowledgements
 
 * Thank you Sean McGregor and Tomas Kay for providing the labeled images!
