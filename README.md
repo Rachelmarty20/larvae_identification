@@ -8,11 +8,16 @@ These instructions will get you a copy of the project up and running on your loc
 
 ### Prerequisites
 
-### Installing
+All of the code is written in python and runs on the following packages:
+* Sklearn
+* cPickle
+* seaborn
+* mahotas
+* numpy
+* matplotlib
 
 ## Running the classification
 
-## Author
-
 ## Acknowledgements
 
+* Thank you Sean McGregor and Tomas Kay for providing the labeled images!
