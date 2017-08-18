@@ -19,7 +19,7 @@ import gc
 # Output: accuracy score file
 
 # run_classifier parameters: test_photo_file, classifier_file, image_size, step, recombination
-def main(test_photo, species, image_size):
+def main(test_photo, species, image_size, kernel_size):
 
     # Import prediction matrix
     prediction_matrix_original = pickle.load(open('/cellar/users/ramarty/Data/ants/version5.0/predictions/{0}/random_forest.{1}.pkl.{2}.p'.format(species, image_size, test_photo)))
@@ -31,37 +31,36 @@ def main(test_photo, species, image_size):
 
     ######## Filters ########
 
-    kernel_sizes = [25, 50, 75, 100]
+
     filter_thresholds1 = [0.4, 0.5, 0.6, 0.7]
     filter_thresholds2 = [0.2, 0.3, 0.4, 0.5]
 
 
     # Filter then threshold
-    for kernel_size in kernel_sizes:
-        for filter_threshold1 in filter_thresholds1:
-            for filter_threshold2 in filter_thresholds2:
-                prediction_matrix = prediction_matrix_original.copy()
+    for filter_threshold1 in filter_thresholds1:
+        for filter_threshold2 in filter_thresholds2:
+            prediction_matrix = prediction_matrix_original.copy()
 
-                prediction_matrix[prediction_matrix < filter_threshold1] = 0
-                kernel = np.array([[1 for x in range(kernel_size)] for y in range(kernel_size)])
-                prediction_matrix = signal.convolve2d(prediction_matrix, kernel, boundary='wrap', mode='same')/kernel.sum()
-                prediction_matrix_copy = prediction_matrix.copy()
-                prediction_matrix_copy[prediction_matrix_copy > 0] = 1
-                auc, fpr, tpr = assess(gs, prediction_matrix_copy)
-                output_base = '/cellar/users/ramarty/Data/ants/version5.0/predictions/{0}/random_forest.{1}.pkl.{2}.filter_{3}.kernel_{4}'.format(species, image_size, test_photo, filter_threshold1, kernel_size)
-                save_result(output_base, prediction_matrix, auc, fpr, tpr)
+            prediction_matrix[prediction_matrix < filter_threshold1] = 0
+            kernel = np.array([[1 for x in range(kernel_size)] for y in range(kernel_size)])
+            prediction_matrix = signal.convolve2d(prediction_matrix, kernel, boundary='wrap', mode='same')/kernel.sum()
+            prediction_matrix_copy = prediction_matrix.copy()
+            prediction_matrix_copy[prediction_matrix_copy > 0] = 1
+            auc, fpr, tpr = assess(gs, prediction_matrix_copy)
+            output_base = '/cellar/users/ramarty/Data/ants/version5.0/predictions/{0}/random_forest.{1}.pkl.{2}.filter_{3}.kernel_{4}'.format(species, image_size, test_photo, filter_threshold1, kernel_size)
+            save_result(output_base, prediction_matrix, auc, fpr, tpr)
 
-                prediction_matrix[prediction_matrix < filter_threshold2] = 0
-                prediction_matrix[prediction_matrix > 0] = 1
-                auc, fpr, tpr = assess(gs, prediction_matrix)
-                output_base = '/cellar/users/ramarty/Data/ants/version5.0/predictions/{0}/random_forest.{1}.pkl.{2}.filter_{3}.kernel_{4}.filter_{5}'.format(species, image_size, test_photo, filter_threshold1, kernel_size, filter_threshold2)
-                save_result(output_base, prediction_matrix, auc, fpr, tpr)
+            prediction_matrix[prediction_matrix < filter_threshold2] = 0
+            prediction_matrix[prediction_matrix > 0] = 1
+            auc, fpr, tpr = assess(gs, prediction_matrix)
+            output_base = '/cellar/users/ramarty/Data/ants/version5.0/predictions/{0}/random_forest.{1}.pkl.{2}.filter_{3}.kernel_{4}.filter_{5}'.format(species, image_size, test_photo, filter_threshold1, kernel_size, filter_threshold2)
+            save_result(output_base, prediction_matrix, auc, fpr, tpr)
 
-                del prediction_matrix
-                del prediction_matrix_copy
-                del fpr, tpr
+            del prediction_matrix
+            del prediction_matrix_copy
+            del fpr, tpr
 
-            print('Filter: {0}, Kernel: {1}'.format(filter_threshold1, kernel_size))
+        print('Filter: {0}, Kernel: {1}'.format(filter_threshold1, kernel_size))
 
 
 
@@ -98,6 +97,6 @@ if __name__ == "__main__":
     start_time = time.time()
     if len(sys.argv) != 4:
         sys.exit()
-    main(sys.argv[1], sys.argv[2], int(sys.argv[3]))
+    main(sys.argv[1], sys.argv[2], int(sys.argv[3]), int(sys.argv[4]))
     print time.time() - start_time
     sys.exit()
