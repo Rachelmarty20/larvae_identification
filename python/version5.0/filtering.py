@@ -44,11 +44,14 @@ def main(test_photo, species, image_size):
                 prediction_matrix[prediction_matrix < filter_threshold1] = 0
                 kernel = np.array([[1 for x in range(kernel_size)] for y in range(kernel_size)])
                 prediction_matrix = signal.convolve2d(prediction_matrix, kernel, boundary='wrap', mode='same')/kernel.sum()
-                auc, fpr, tpr = assess(gs, prediction_matrix)
+                prediction_matrix_copy = prediction_matrix.copy()
+                prediction_matrix_copy[prediction_matrix_copy > 0] = 1
+                auc, fpr, tpr = assess(gs, prediction_matrix_copy)
                 output_base = '/cellar/users/ramarty/Data/ants/version5.0/predictions/{0}/random_forest.{1}.pkl.{2}.filter_{3}.kernel_{4}'.format(species, image_size, test_photo, filter_threshold1, kernel_size)
                 save_result(output_base, prediction_matrix, auc, fpr, tpr)
 
                 prediction_matrix[prediction_matrix < filter_threshold2] = 0
+                prediction_matrix[prediction_matrix > 0] = 1
                 auc, fpr, tpr = assess(gs, prediction_matrix)
                 output_base = '/cellar/users/ramarty/Data/ants/version5.0/predictions/{0}/random_forest.{1}.pkl.{2}.filter_{3}.kernel_{4}.filter_{5}'.format(species, image_size, test_photo, filter_threshold1, kernel_size, filter_threshold2)
                 save_result(output_base, prediction_matrix, auc, fpr, tpr)
