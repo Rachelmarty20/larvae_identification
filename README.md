@@ -1,6 +1,8 @@
 # Brood Classification
 
-A project to localize the ant brood of an image. Classifiers for two species: Leptothorax and C.Fellah are presented here.
+## Introduction
+
+A tool to localize the ant brood of an image. Classifiers for two species (Leptothorax and C.Fellah) are included. 
 
 ## Getting Started
 
@@ -8,7 +10,8 @@ These instructions will get you a copy of the project up and running on your loc
 
 ### Prerequisites
 
-All of the code is written in python and runs on the following packages:
+The tool is written in Python and uses the following Python modules: 
+
 * Sklearn
 * cPickle
 * seaborn
@@ -16,7 +19,19 @@ All of the code is written in python and runs on the following packages:
 * numpy
 * matplotlib
 
-## Running the classification
+All of the modules can be installed with pip:
+
+```
+pip install numpy
+pip install scipy
+pip install -U scikit-learn
+```
+
+## Testing
+
+
+
+## Running 
 
 The following will have to be run from the commandline to produce results:
 
