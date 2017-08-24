@@ -9,7 +9,7 @@ __version__ = "0.1.0"
 __license__ = "UCSD"
 
 import argparse
-import classification
+import developement.classification as classification
 from sklearn.externals import joblib
 import cPickle as pickle
 import warnings
