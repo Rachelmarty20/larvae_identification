@@ -3,9 +3,7 @@ import numpy as np
 import matplotlib
 matplotlib.use('Agg')
 from matplotlib import pyplot as plt
-import PIL.Image as Image
 import seaborn as sns
-import sklearn
 import pickle
 from scipy import signal
 

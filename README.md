@@ -12,12 +12,12 @@ These instructions will get you a copy of the project up and running on your loc
 
 The tool is written in Python and uses the following Python modules: 
 
-* Sklearn
-* cPickle
+* numpy
+* scipy
+* scikit-learn
+* matplotlib
 * seaborn
 * mahotas
-* numpy
-* matplotlib
 
 All of the modules can be installed with pip:
 
@@ -25,24 +25,56 @@ All of the modules can be installed with pip:
 pip install numpy
 pip install scipy
 pip install -U scikit-learn
+pip install matplotlib
+pip install seaborn
+pip intall mahotas
 ```
 
 ## Testing
 
+Your installation can be tested by running the following command from main directory:
 
+```
+python RunClassification.py classifiers/leptothorax.random_forest.50.pkl test/box61-20140119-1410-00367221.pgm test/results/
+```
+
+If the installation is successful, the code should run to completion and the following command should have no output:
+
+```
+diff test/results/sample.png	test/results/sample.standard.png
+```
 
 ## Running 
 
 The following will have to be run from the commandline to produce results:
 
 ```
-python RunClassification.py
+python RunClassification.py [-h] [-s SQUARE_SIZE][-f1 FILTER1] [-k KERNEL_SIZE] [-f2 FILTER2] [-n SAMPLE_NAME] [-v] [--version]
+       classifier_path image_path output_directory
 ```
 
 For help choosing options, run:
 
 ```
 python RunClassification.py --help
+```
+To acquire the following option descriptions:
+
+```
+ positional arguments:
+  classifier_path   Path to model
+  image_path        Path to image to classify (pgm)
+  output_directory  Path for results directory
+
+optional arguments:
+  -h, --help        show this help message and exit
+  -s SQUARE_SIZE    Size of scanning boxes
+  -f1 FILTER1       First filter threshold
+  -k KERNEL_SIZE    Kernel size
+  -f2 FILTER2       Second filter threshold
+  -n SAMPLE_NAME    Name for sample
+  -v, --verbose     Verbosity (-v, -vv, etc)
+  --version         show program's version number and exit
 ```
 
 ## Acknowledgements
