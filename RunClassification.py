@@ -40,7 +40,7 @@ def main(args):
     print("Filtering done.")
 
     # Save image and data file
-    cla.save_results(args.output_direcotry)
+    cla.save_results(args.output_directory)
 
 
 if __name__ == "__main__":
