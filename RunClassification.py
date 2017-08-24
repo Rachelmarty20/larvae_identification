@@ -9,7 +9,7 @@ __version__ = "0.1.0"
 __license__ = "UCSD"
 
 import argparse
-import developement.claication as claication
+import developement.classification as classification
 from sklearn.externals import joblib
 import cPickle as pickle
 import warnings
@@ -18,17 +18,17 @@ warnings.filterwarnings('ignore')
 def main(args):
 
     # Upload image
-    cla = claication.claication(image_path=args.image_path, square_size=args.square_size,
+    cla = classification.Classification(image_path=args.image_path, square_size=args.square_size,
                                        filter1=args.filter1, kernel_size=args.kernel_size,
                                        filter2=args.filter2, sample_name=args.sample_name)
     cla.get_image_matrix()
     print("Image loaded.")
 
-    # Import claier
-    model = joblib.load(args.claier_path)
+    # Import classifier
+    model = joblib.load(args.classifier_path)
     print("Model loaded.")
 
-    # Run claication
+    # Run classifier
     print("Predicting...")
     cla.predict(model)
     cla.summarize_predictions()
@@ -45,11 +45,11 @@ def main(args):
 
 if __name__ == "__main__":
 
-    parser = argparse.ArgumentParser("This program is used to claentify the position of brood in an image.")
+    parser = argparse.ArgumentParser("This program is used to identify the position of brood in an image.")
 
     # required arguements
-    parser.add_argument("claier_path", help="Path to model")
-    parser.add_argument("image_path", help="Path to image to clay (pgm)")
+    parser.add_argument("classifier_path", help="Path to model")
+    parser.add_argument("image_path", help="Path to image to classify (pgm)")
     parser.add_argument("output_directory", help="Path for results directory")
 
     # optional arguments
