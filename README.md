@@ -68,13 +68,36 @@ To acquire the following option descriptions:
 
 optional arguments:
   -h, --help        show this help message and exit
-  -s SQUARE_SIZE    Size of scanning boxes
+  -s SQUARE_SIZE    Size of scanning boxes (must align {scanning_square_size} in classifier name)
   -f1 FILTER1       First filter threshold
   -k KERNEL_SIZE    Kernel size
   -f2 FILTER2       Second filter threshold
   -n SAMPLE_NAME    Name for sample
   -v, --verbose     Verbosity (-v, -vv, etc)
   --version         show program's version number and exit
+```
+
+### Classifiers available
+
+Naming convention
+
+```
+classifiers/{species}.{algorithm}.{scanning_square_size}.pkl
+```
+
+C. Fellah
+
+```
+classifiers/cfellah.random_forest.30.pkl 
+classifiers/cfellah.random_forest.50.pkl
+```
+
+Leptothorax
+
+```
+classifiers/leptothorax.random_forest.30.pkl 
+classifiers/leptothorax.random_forest.50.pkl
+classifiers/leptothorax.random_forest.100.pkl
 ```
 
 ## Acknowledgements
