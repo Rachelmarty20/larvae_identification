@@ -76,5 +76,5 @@ class Classification(object):
 
         # Save images to a file
         plt.figure(figsize=(6,8))
-        sns.heatmap(self.prediction_matrix, cmap=sns.cubehelix_palette(100))
+        sns.heatmap(self.prediction_matrix) #, cmap=sns.cubehelix_palette(100))
         plt.savefig("{0}/{1}.png".format(location, self.name))

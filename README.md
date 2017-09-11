@@ -10,16 +10,16 @@ These instructions will get you a copy of the project up and running on your loc
 
 ### Prerequisites
 
-The tool is written in Python and uses the following Python modules: 
+The tool is written in Python and uses the following Python modules (only been tested with the following package versions using python 2.7): 
 
-* numpy
-* scipy
-* scikit-learn
-* matplotlib
-* seaborn
-* mahotas
+* numpy (1.11.1)
+* scipy (0.18.1)
+* scikit-learn (0.18.1)
+* matplotlib (1.5.3)
+* seaborn (0.7.1)
+* mahotas (1.4.3)
 
-All of the modules can be installed with pip:
+All of the modules can be installed with pip (or with anaconda):
 
 ```
 pip install numpy
@@ -35,13 +35,13 @@ pip intall mahotas
 Your installation can be tested by running the following command from main directory:
 
 ```
-python RunClassification.py classifiers/leptothorax.random_forest.50.pkl test/box61-20140119-1410-00367221.pgm test/results/
+python RunClassification.py classifiers/leptothorax.random_forest.50.pkl test/ box61-20140119-1410-00367221.pgm test/results/
 ```
 
 If the installation is successful, the code should run to completion and the following command should have no output:
 
 ```
-diff test/results/sample.png	test/results/sample.standard.png
+diff test/results/sample.png test/results/sample.standard.png
 ```
 
 ## Running 
